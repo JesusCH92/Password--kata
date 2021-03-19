@@ -7,7 +7,7 @@ namespace Test\Spy;
 use App\Password\Domain\Password;
 use App\Password\Domain\PasswordValidatorRepository;
 
-final class OldJobPasswordValidatorRepositorySpy implements PasswordValidatorRepository
+final class PasswordValidatorRepositorySpy implements PasswordValidatorRepository
 {
     private $validateWasCalled = false;
 
