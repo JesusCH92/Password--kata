@@ -23,7 +23,7 @@ final class PasswordCheckerCommand
         $service = ($this->passwordChecker)(
             new PasswordCheckerRequest($input)
         );
-        $validPasswordAmount = count($service);
+        $validPasswordAmount = count($service->passwordCollection());
 
         echo "There are $validPasswordAmount valid passwords" . PHP_EOL;
     }
