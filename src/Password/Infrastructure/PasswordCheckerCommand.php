@@ -6,7 +6,7 @@ namespace App\Password\Infrastructure;
 
 use App\Password\ApplicationService\PasswordChecker;
 
-final class OldJobPasswordCheckerCommand
+final class PasswordCheckerCommand
 {
     private PasswordChecker $passwordChecker;
 
