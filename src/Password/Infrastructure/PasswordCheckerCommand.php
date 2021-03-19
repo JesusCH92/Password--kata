@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Password\Infrastructure;
 
+use App\Password\ApplicationService\DTO\PasswordCheckerRequest;
 use App\Password\ApplicationService\PasswordChecker;
 
 final class PasswordCheckerCommand
@@ -19,7 +20,9 @@ final class PasswordCheckerCommand
     {
         $input = file("input.txt", FILE_IGNORE_NEW_LINES);;
 
-        $service = ($this->passwordChecker)($input);
+        $service = ($this->passwordChecker)(
+            new PasswordCheckerRequest($input)
+        );
         $validPasswordAmount = count($service);
 
         echo "There are $validPasswordAmount valid passwords" . PHP_EOL;
