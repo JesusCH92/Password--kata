@@ -1,10 +1,10 @@
-##    run:			run script use php cli
+##    run:					run script for old job policy using php cli
 .PHONY : run
 run:
 	@docker run -it --rm --name my-running-script -v $(shell pwd):/usr/src/myapp -w /usr/src/myapp php:7.4-cli php oldJobPolicy.php
 
 
-##    run-second-part:			run script use php cli
+##    run-second-part:		run script for new job policy using php cli
 .PHONY : run-second-part
 run-second-part:
 	@docker run -it --rm --name my-running-script -v $(shell pwd):/usr/src/myapp -w /usr/src/myapp php:7.4-cli php newJobPolicy.php
