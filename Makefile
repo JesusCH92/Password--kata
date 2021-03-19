@@ -4,6 +4,12 @@ run:
 	@docker run -it --rm --name my-running-script -v $(shell pwd):/usr/src/myapp -w /usr/src/myapp php:7.4-cli php oldJobPolicy.php
 
 
+##    run-second-part:			run script use php cli
+.PHONY : run-second-part
+run-second-part:
+	@docker run -it --rm --name my-running-script -v $(shell pwd):/usr/src/myapp -w /usr/src/myapp php:7.4-cli php newJobPolicy.php
+
+
 ##    install:		install dependencies
 .PHONY : install
 install:
