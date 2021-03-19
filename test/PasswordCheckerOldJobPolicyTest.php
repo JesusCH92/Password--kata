@@ -10,7 +10,7 @@ use App\Password\Infrastructure\OldJobPasswordValidatorRepository;
 use Test\Spy\OldJobPasswordValidatorRepositorySpy;
 use PHPUnit\Framework\TestCase;
 
-class PasswordCheckerTest extends TestCase
+class PasswordCheckerOldJobPolicyTest extends TestCase
 {
     /**
      * @test
