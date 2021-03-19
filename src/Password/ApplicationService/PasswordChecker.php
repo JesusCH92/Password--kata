@@ -33,7 +33,6 @@ final class PasswordChecker
             if (($this->passwordValidatorRepository)->isValidPassword($password)) {
                 $passwordValidCollection[] = $password;
             }
-
         }
 
         return new PasswordCheckerResponse($passwordValidCollection);
@@ -41,14 +40,14 @@ final class PasswordChecker
 
     private function passwordFormat(string $plainPassword): array
     {
-        $plainPasswordSlice = explode(" ", $plainPassword);
+        $plainPasswordSlice        = explode(" ", $plainPassword);
         $numberPlainPasswordFormat = $this->numberPasswordFormat($plainPasswordSlice[0]);
 
         return [
             'firstNumber' => (int)$numberPlainPasswordFormat['firstNumber'],
-            'lastNumber'  => (int)$numberPlainPasswordFormat['lastNumber'],
-            'character'   => $this->characterPasswordFormat($plainPasswordSlice[1]),
-            'password'    => $plainPasswordSlice[2]
+            'lastNumber' => (int)$numberPlainPasswordFormat['lastNumber'],
+            'character' => $this->characterPasswordFormat($plainPasswordSlice[1]),
+            'password' => $plainPasswordSlice[2]
         ];
     }
 
@@ -57,12 +56,12 @@ final class PasswordChecker
         $plainNumberSlice = explode("-", $plainNumber);
         return [
             'firstNumber' => $plainNumberSlice[0],
-            'lastNumber'  => $plainNumberSlice[1]
+            'lastNumber' => $plainNumberSlice[1]
         ];
     }
 
     private function characterPasswordFormat(string $plainCharacter): string
     {
-        return str_replace(":","",$plainCharacter);
+        return str_replace(":", "", $plainCharacter);
     }
 }

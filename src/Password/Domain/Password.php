@@ -11,8 +11,12 @@ final class Password
     private string $characterValidator;
     private string $password;
 
-    public function __construct(int $firstNumberValidator, int $lastNumberValidator, string $characterValidator, string $password)
-    {
+    public function __construct(
+        int $firstNumberValidator,
+        int $lastNumberValidator,
+        string $characterValidator,
+        string $password
+    ) {
         $this->firstNumberValidator = $firstNumberValidator;
         $this->lastNumberValidator  = $lastNumberValidator;
         $this->characterValidator   = $characterValidator;

@@ -7,8 +7,10 @@ use App\Password\Infrastructure\PasswordCheckerCommand;
 require 'vendor/autoload.php';
 
 
-$passwordCheckerController = new PasswordCheckerCommand(new PasswordChecker(
-    new NewJobPasswordValidatorRepository()
-));
+$passwordCheckerController = new PasswordCheckerCommand(
+    new PasswordChecker(
+        new NewJobPasswordValidatorRepository()
+    )
+);
 
 $passwordCheckerController();

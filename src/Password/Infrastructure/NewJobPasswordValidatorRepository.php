@@ -11,10 +11,12 @@ final class NewJobPasswordValidatorRepository implements PasswordValidatorReposi
 {
     public function isValidPassword(Password $password): bool
     {
-        $isFirstNumberValidatorSameCharacterValidator = $password->password()[$password->firstNumberValidator()-1] === $password->characterValidator();
-        $isLastNumberValidatorSameCharacterValidator = $password->password()[$password->lastNumberValidator()-1] === $password->characterValidator();
+        $isFirstNumberValidatorSameCharacterValidator = $password->password()[$password->firstNumberValidator(
+            ) - 1] === $password->characterValidator();
+        $isLastNumberValidatorSameCharacterValidator  = $password->password()[$password->lastNumberValidator(
+            ) - 1] === $password->characterValidator();
 
         return ($isFirstNumberValidatorSameCharacterValidator && !$isLastNumberValidatorSameCharacterValidator) ||
-        (!$isFirstNumberValidatorSameCharacterValidator && $isLastNumberValidatorSameCharacterValidator);
+            (!$isFirstNumberValidatorSameCharacterValidator && $isLastNumberValidatorSameCharacterValidator);
     }
 }
