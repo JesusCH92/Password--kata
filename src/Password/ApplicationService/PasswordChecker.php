@@ -4,14 +4,34 @@ declare(strict_types=1);
 
 namespace App\Password\ApplicationService;
 
+use App\Password\Domain\Password;
+use App\Password\Domain\PasswordValidatorRepository;
+
 final class PasswordChecker
 {
+    private PasswordValidatorRepository $passwordValidatorRepository;
+
+    public function __construct(PasswordValidatorRepository $passwordValidatorRepository)
+    {
+        $this->passwordValidatorRepository = $passwordValidatorRepository;
+    }
+
     public function __invoke(array $plainPasswordCollection): array
     {
         $passwordValidCollection = [];
 
         foreach ($plainPasswordCollection as $plainPassword) {
-            $passwordValidCollection[] = $this->passwordFormat($plainPassword);
+            $password = new Password(
+                $this->passwordFormat($plainPassword)['firstNumber'],
+                $this->passwordFormat($plainPassword)['lastNumber'],
+                $this->passwordFormat($plainPassword)['character'],
+                $this->passwordFormat($plainPassword)['password'],
+            );
+
+            if (($this->passwordValidatorRepository)->isValidPassword($password)) {
+                $passwordValidCollection[] = $password;
+            }
+
         }
 
         return $passwordValidCollection;
