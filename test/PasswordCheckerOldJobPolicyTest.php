@@ -9,7 +9,7 @@ use App\Password\ApplicationService\DTO\PasswordCheckerResponse;
 use App\Password\ApplicationService\PasswordChecker;
 use App\Password\Domain\Password;
 use App\Password\Infrastructure\OldJobPasswordValidatorRepository;
-use Test\Spy\OldJobPasswordValidatorRepositorySpy;
+use Test\Spy\PasswordValidatorRepositorySpy;
 use PHPUnit\Framework\TestCase;
 
 class PasswordCheckerOldJobPolicyTest extends TestCase
@@ -58,12 +58,12 @@ class PasswordCheckerOldJobPolicyTest extends TestCase
      */
     public function shouldValidateThePassword()
     {
-        $oldJobPasswordValidatorRepositorySpy = new OldJobPasswordValidatorRepositorySpy();
+        $passwordValidatorRepositorySpy = new PasswordValidatorRepositorySpy();
 
-        $service = new PasswordChecker($oldJobPasswordValidatorRepositorySpy);
+        $service = new PasswordChecker($passwordValidatorRepositorySpy);
         $service(new PasswordCheckerRequest(['1-3 a: abcde']));
 
-        $this->assertTrue($oldJobPasswordValidatorRepositorySpy->verify());
+        $this->assertTrue($passwordValidatorRepositorySpy->verify());
     }
 
     /**
@@ -71,11 +71,11 @@ class PasswordCheckerOldJobPolicyTest extends TestCase
      */
     public function notShouldValidateThePassword()
     {
-        $oldJobPasswordValidatorRepositorySpy = new OldJobPasswordValidatorRepositorySpy();
+        $passwordValidatorRepositorySpy = new PasswordValidatorRepositorySpy();
 
-        $service = new PasswordChecker($oldJobPasswordValidatorRepositorySpy);
+        $service = new PasswordChecker($passwordValidatorRepositorySpy);
         $service(new PasswordCheckerRequest(['1-3 a: bbbbbb']));
 
-        $this->assertTrue($oldJobPasswordValidatorRepositorySpy->verify());
+        $this->assertTrue($passwordValidatorRepositorySpy->verify());
     }
 }
