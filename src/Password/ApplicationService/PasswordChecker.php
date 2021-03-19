@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Password\ApplicationService;
 
 use App\Password\ApplicationService\DTO\PasswordCheckerRequest;
+use App\Password\ApplicationService\DTO\PasswordCheckerResponse;
 use App\Password\Domain\Password;
 use App\Password\Domain\PasswordValidatorRepository;
 
@@ -17,7 +18,7 @@ final class PasswordChecker
         $this->passwordValidatorRepository = $passwordValidatorRepository;
     }
 
-    public function __invoke(PasswordCheckerRequest $request): array
+    public function __invoke(PasswordCheckerRequest $request): PasswordCheckerResponse
     {
         $passwordValidCollection = [];
 
@@ -35,7 +36,7 @@ final class PasswordChecker
 
         }
 
-        return $passwordValidCollection;
+        return new PasswordCheckerResponse($passwordValidCollection);
     }
 
     private function passwordFormat(string $plainPassword): array
