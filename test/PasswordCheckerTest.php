@@ -7,6 +7,7 @@ namespace Test;
 use App\Password\ApplicationService\PasswordChecker;
 use App\Password\Domain\Password;
 use App\Password\Infrastructure\OldJobPasswordValidatorRepository;
+use Test\Spy\OldJobPasswordValidatorRepositorySpy;
 use PHPUnit\Framework\TestCase;
 
 class PasswordCheckerTest extends TestCase
@@ -47,5 +48,31 @@ class PasswordCheckerTest extends TestCase
         $validPasswordAmount = count($service(['1-3 a: abcde', '1-3 b: cdefg', '2-9 c: ccccccccc']));
 
         $this->assertEquals(2, $validPasswordAmount);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldValidateThePassword()
+    {
+        $oldJobPasswordValidatorRepositorySpy = new OldJobPasswordValidatorRepositorySpy();
+
+        $service = new PasswordChecker($oldJobPasswordValidatorRepositorySpy);
+        $service(['1-3 a: abcde']);
+
+        $this->assertTrue($oldJobPasswordValidatorRepositorySpy->verify());
+    }
+
+    /**
+     * @test
+     */
+    public function notShouldValidateThePassword()
+    {
+        $oldJobPasswordValidatorRepositorySpy = new OldJobPasswordValidatorRepositorySpy();
+
+        $service = new PasswordChecker($oldJobPasswordValidatorRepositorySpy);
+        $service(['1-3 a: bbbbbb']);
+
+        $this->assertTrue($oldJobPasswordValidatorRepositorySpy->verify());
     }
 }
