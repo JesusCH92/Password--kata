@@ -16,14 +16,11 @@ Para la segunda parte del ejercicio, tenemos una nueva forma de validar las cont
 
 ## Ejemplo de la nueva política de contraseñas:
 ```
-1-3 a: abcde es válida: la posición 1 contiene a y la
-posición 3 no.
+1-3 a: abcde es válida: la posición 1 contiene a y la posición 3 no.
 
-1-3 b: cdefg es no válida: Ni la posición 1 ni la 3
-contienen el carácter b.
+1-3 b: cdefg es no válida: Ni la posición 1 ni la 3 contienen el carácter b.
 
-2-9 c: ccccccccc es no válida. Las dos posiciones 2 y 9
-contienen el carácter c.
+2-9 c: ccccccccc es no válida. Las dos posiciones 2 y 9 contienen el carácter c.
 ```
 
 # Requisitos del sistema
