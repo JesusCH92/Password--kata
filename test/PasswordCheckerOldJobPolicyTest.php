@@ -21,8 +21,8 @@ class PasswordCheckerOldJobPolicyTest extends TestCase
     {
         $service = new PasswordChecker(new OldJobPasswordValidatorRepository());
         $this->assertEquals(
-            $service(new PasswordCheckerRequest(['1-3 a: abcde'])),
-            new PasswordCheckerResponse([new Password(1, 3, 'a', 'abcde')])
+            $service(new PasswordCheckerRequest('1-3 a: abcde')),
+            new PasswordCheckerResponse(true)
         );
     }
 
@@ -33,8 +33,8 @@ class PasswordCheckerOldJobPolicyTest extends TestCase
     {
         $service = new PasswordChecker(new OldJobPasswordValidatorRepository());
         $this->assertNotEquals(
-            $service(new PasswordCheckerRequest(['1-3 b: cdefg'])),
-            new PasswordCheckerResponse([new Password(1, 3, 'b', 'cdefg')])
+            $service(new PasswordCheckerRequest('1-3 b: cdefg')),
+            new PasswordCheckerResponse(true)
         );
     }
 
@@ -45,8 +45,8 @@ class PasswordCheckerOldJobPolicyTest extends TestCase
     {
         $service = new PasswordChecker(new OldJobPasswordValidatorRepository());
         $this->assertEquals(
-            $service(new PasswordCheckerRequest(['2-9 c: ccccccccc'])),
-            new PasswordCheckerResponse([new Password(2, 9, 'c', 'ccccccccc')])
+            $service(new PasswordCheckerRequest('2-9 c: ccccccccc')),
+            new PasswordCheckerResponse(true)
         );
     }
 
@@ -55,13 +55,17 @@ class PasswordCheckerOldJobPolicyTest extends TestCase
      */
     public function thereMustBe2ValidPasswords()
     {
-        $service             = new PasswordChecker(new OldJobPasswordValidatorRepository());
-        $response            = $service(
-            new PasswordCheckerRequest(['1-3 a: abcde', '1-3 b: cdefg', '2-9 c: ccccccccc'])
-        );
-        $validPasswordAmount = count($response->passwordCollection());
+        $service                  = new PasswordChecker(new OldJobPasswordValidatorRepository());
+        $validPlainPasswordAmount = 0;
 
-        $this->assertEquals(2, $validPasswordAmount);
+        foreach (['1-3 a: abcde', '1-3 b: cdefg', '2-9 c: ccccccccc'] as $plainPassword) {
+            $response = $service(
+                new PasswordCheckerRequest($plainPassword)
+            );
+            $validPlainPasswordAmount = $response->isValidPassword() ? $validPlainPasswordAmount + 1 : $validPlainPasswordAmount;
+        }
+
+        $this->assertEquals(2, $validPlainPasswordAmount);
     }
 
     /**
@@ -72,7 +76,7 @@ class PasswordCheckerOldJobPolicyTest extends TestCase
         $passwordValidatorRepositorySpy = new PasswordValidatorRepositorySpy();
 
         $service = new PasswordChecker($passwordValidatorRepositorySpy);
-        $service(new PasswordCheckerRequest(['1-3 a: abcde']));
+        $service(new PasswordCheckerRequest('1-3 a: abcde'));
 
         $this->assertTrue($passwordValidatorRepositorySpy->verify());
     }
@@ -85,7 +89,7 @@ class PasswordCheckerOldJobPolicyTest extends TestCase
         $passwordValidatorRepositorySpy = new PasswordValidatorRepositorySpy();
 
         $service = new PasswordChecker($passwordValidatorRepositorySpy);
-        $service(new PasswordCheckerRequest(['1-3 a: bbbbbb']));
+        $service(new PasswordCheckerRequest('1-3 a: bbbbbb'));
 
         $this->assertTrue($passwordValidatorRepositorySpy->verify());
     }
