@@ -6,15 +6,15 @@ namespace App\Password\ApplicationService\DTO;
 
 final class PasswordCheckerResponse
 {
-    private array $passwordCollection;
+    private bool $isValidPassword;
 
-    public function __construct(array $passwordCollection)
+    public function __construct(bool $isValidPassword)
     {
-        $this->passwordCollection = $passwordCollection;
+        $this->isValidPassword = $isValidPassword;
     }
 
-    public function passwordCollection(): array
+    public function isValidPassword(): bool
     {
-        return $this->passwordCollection;
+        return $this->isValidPassword;
     }
 }
