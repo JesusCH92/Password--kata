@@ -6,15 +6,15 @@ namespace App\Password\ApplicationService\DTO;
 
 final class PasswordCheckerRequest
 {
-    private array $plainPasswordCollection;
+    private string $plainPassword;
 
-    public function __construct(array $plainPasswordCollection)
+    public function __construct(string $plainPassword)
     {
-        $this->plainPasswordCollection = $plainPasswordCollection;
+        $this->plainPassword = $plainPassword;
     }
 
-    public function plainPasswordCollection(): array
+    public function plainPassword(): string
     {
-        return $this->plainPasswordCollection;
+        return $this->plainPassword;
     }
 }
