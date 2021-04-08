@@ -11,10 +11,12 @@ final class OldJobPasswordValidatorRepository implements PasswordValidatorReposi
 {
     public function isValidPassword(Password $password): bool
     {
-        return $password->firstNumberValidator() <= substr_count(
-                $password->password(),
-                $password->characterValidator()
-            ) && substr_count($password->password(), $password->characterValidator()) <= $password->lastNumberValidator(
-            );
+        $characterValidatorInPasswordAmount = substr_count(
+            $password->password(),
+            $password->characterValidator()
+        );
+
+        return $password->firstNumberValidator() <= $characterValidatorInPasswordAmount &&
+                $characterValidatorInPasswordAmount <= $password->lastNumberValidator();
     }
 }
