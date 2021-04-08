@@ -20,22 +20,18 @@ final class PasswordChecker
 
     public function __invoke(PasswordCheckerRequest $request): PasswordCheckerResponse
     {
-        $passwordValidCollection = [];
+        $plainPassword = $request->plainPassword();
 
-        foreach ($request->plainPasswordCollection() as $plainPassword) {
-            $password = new Password(
-                $this->passwordFormat($plainPassword)['firstNumber'],
-                $this->passwordFormat($plainPassword)['lastNumber'],
-                $this->passwordFormat($plainPassword)['character'],
-                $this->passwordFormat($plainPassword)['password'],
-            );
+        $password = new Password(
+            $this->passwordFormat($plainPassword)['firstNumber'],
+            $this->passwordFormat($plainPassword)['lastNumber'],
+            $this->passwordFormat($plainPassword)['character'],
+            $this->passwordFormat($plainPassword)['password'],
+        );
 
-            if (($this->passwordValidatorRepository)->isValidPassword($password)) {
-                $passwordValidCollection[] = $password;
-            }
-        }
-
-        return new PasswordCheckerResponse($passwordValidCollection);
+        return new PasswordCheckerResponse(
+            ($this->passwordValidatorRepository)->isValidPassword($password)
+        );
     }
 
     private function passwordFormat(string $plainPassword): array
