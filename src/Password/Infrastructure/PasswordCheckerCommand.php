@@ -18,12 +18,14 @@ final class PasswordCheckerCommand
 
     public function __invoke()
     {
-        $input = file("input.txt", FILE_IGNORE_NEW_LINES);
+        $passwordCollection = file("input.txt", FILE_IGNORE_NEW_LINES);
+        $validPlainPasswordAmount = 0;
 
-        $service = ($this->passwordChecker)(new PasswordCheckerRequest($input));
+        foreach ($passwordCollection as $plainPassword) {
+            $service = ($this->passwordChecker)(new PasswordCheckerRequest($plainPassword));
+            $validPlainPasswordAmount = $service->isValidPassword() ? $validPlainPasswordAmount + 1 : $validPlainPasswordAmount;
+        }
 
-        $validPasswordAmount = count($service->passwordCollection());
-
-        echo "There are $validPasswordAmount valid passwords" . PHP_EOL;
+        echo "There are $validPlainPasswordAmount valid passwords" . PHP_EOL;
     }
 }
